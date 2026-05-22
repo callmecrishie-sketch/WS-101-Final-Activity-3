@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Registration Form</h2>
+<form method="post" action="process.php">
+  Name: <input type="text" name="name"><br><br>
+  Email: <input type="email" name="email"><br><br>
+  <input type="submit" value="Send Data">
+</form>
+</body>
+</html>
