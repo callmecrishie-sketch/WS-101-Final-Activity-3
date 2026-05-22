@@ -1,0 +1,20 @@
+<?php
+// Check if form was submitted
+if (isset($_POST["name"]) && isset($_POST["email1"])) {
+    // Use htmlspecialchars() to secure output (prevents XSS)
+    $name = htmlspecialchars($_POST["name"]);
+    $email1 = htmlspecialchars($_POST["email1"]);
+
+    echo "<h3>Secure Output:</h3>";
+    echo "Name: " . $name . "<br>";
+    echo "Email: " . $email1 . "<br><br>";
+}
+?>
+
+<form method="post" action="">
+    Name: <input type="text" name="name"><br><br>
+    Email: <input type="email" name="email1"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+
