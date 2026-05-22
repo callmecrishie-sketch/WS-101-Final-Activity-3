@@ -1,0 +1,18 @@
+<?php
+if (isset($_POST["age"])) {
+    $age = $_POST["age"];
+    
+    if (is_numeric($age) && $age >= 1 && $age <= 120) {
+        echo "Valid Age: " . $age;
+    } else {
+        echo "Invalid age! Must be a number between 1–120.";
+    }
+}
+?>
+
+<form method="post" action="">
+    Age: <input type="text" name="age">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+
