@@ -1,0 +1,14 @@
+<?php
+$name = "";
+if (isset($_POST["name"])) {
+    $name = $_POST["name"];
+}
+?>
+
+<form method="post" action="">
+    Name: 
+    <!-- PHP inside value attribute -->
+    <input type="text" name="name" value="<?php echo $name; ?>">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
