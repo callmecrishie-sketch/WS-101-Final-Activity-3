@@ -1,0 +1,18 @@
+<?php
+if (isset($_POST["hobbies"])) {
+    $selected = $_POST["hobbies"];
+    echo "Selected Hobbies: <br>";
+    foreach ($selected as $hobby) {
+        echo "- " . htmlspecialchars($hobby) . "<br>";
+    }
+}
+?>
+<form method="post" action="">
+    Hobbies:<br>
+    <input type="checkbox" name="hobbies[]" value="Reading"> Reading<br>
+    <input type="checkbox" name="hobbies[]" value="Gaming"> Gaming<br>
+    <input type="checkbox" name="hobbies[]" value="Sports"> Sports<br>
+    <input type="checkbox" name="hobbies[]" value="Music"> Music<br>
+    <br>
+    <input type="submit" value="Submit">
+</form>
