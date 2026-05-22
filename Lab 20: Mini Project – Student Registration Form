@@ -1,0 +1,111 @@
+<?php
+$error = "";
+$output = "";
+
+if (isset($_POST["submit"])) {
+    // Step 1: Get inputs
+    $name    = trim($_POST["name"] ?? "");
+    $email   = trim($_POST["email"] ?? "");
+    $gender  = $_POST["gender"] ?? "";
+    $course  = $_POST["course"] ?? "";
+    $hobbies = $_POST["hobbies"] ?? [];
+    $message = trim($_POST["message"] ?? "");
+
+    // --------------------------
+    // Step 2: VALIDATION
+    // --------------------------
+    if (empty($name))                     $error .= "• Name is required<br>";
+    if (empty($email))                    $error .= "• Email is required<br>";
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+                                          $error .= "• Email format is invalid<br>";
+    if (empty($gender))                   $error .= "• Gender is required<br>";
+    if (empty($course))                   $error .= "• Please select a course<br>";
+    if (empty($hobbies))                  $error .= "• Select at least one hobby<br>";
+    if (empty($message))                  $error .= "• Message is required<br>";
+
+    // --------------------------
+    // Step 3: If NO errors → SANITIZE & SHOW
+    // --------------------------
+    if ($error === "") {
+        $name    = htmlspecialchars($name);
+        $email   = htmlspecialchars($email);
+        $gender  = htmlspecialchars($gender);
+        $course  = htmlspecialchars($course);
+        $message = htmlspecialchars($message);
+
+        $hobbyList = implode(", ", array_map('htmlspecialchars', $hobbies));
+
+        $output = "
+        <div style='background:#e8f4f8; padding:15px; border-radius:5px;'>
+            <h3> Registration Successful</h3>
+            <strong>Name:</strong> $name <br>
+            <strong>Email:</strong> $email <br>
+            <strong>Gender:</strong> $gender <br>
+            <strong>Course:</strong> $course <br>
+            <strong>Hobbies:</strong> $hobbyList <br>
+            <strong>Message:</strong><br> " . nl2br($message) . "
+        </div>";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+<h2>Student Registration Form</h2>
+
+<form method="post" action="">
+    <!-- Name -->
+    Name: <input type="text" name="name" value="<?= $_POST['name'] ?? '' ?>"><br><br>
+
+    <!-- Email -->
+    Email: <input type="email" name="email" value="<?= $_POST['email'] ?? '' ?>"><br><br>
+
+    <!-- Gender -->
+    Gender:<br>
+    <input type="radio" name="gender" value="Male"  <?= (($_POST['gender'] ?? '') === 'Male') ? 'checked' : '' ?>> Male
+    <input type="radio" name="gender" value="Female" <?= (($_POST['gender'] ?? '') === 'Female') ? 'checked' : '' ?>> Female
+    <br><br>
+
+    <!-- Course -->
+    Course:
+    <select name="course">
+        <option value="">-- Select Course --</option>
+        <option value="BSIT" <?= (($_POST['course'] ?? '') === 'BSIT') ? 'checked' : '' ?>>BSIT</option>
+        <option value="BSCS" <?= (($_POST['course'] ?? '') === 'BSCS') ? 'checked' : '' ?>>BSCS</option>
+        <option value="BSBA" <?= (($_POST['course'] ?? '') === 'BSBA') ? 'checked' : '' ?>>BSBA</option>
+    </select><br><br>
+
+    <!-- Hobbies (Checkbox) -->
+    Hobbies:<br>
+    <input type="checkbox" name="hobbies[]" value="Reading" <?= (in_array("Reading", $_POST['hobbies'] ?? [])) ? 'checked' : '' ?>> Reading
+    <input type="checkbox" name="hobbies[]" value="Gaming"  <?= (in_array("Gaming", $_POST['hobbies'] ?? [])) ? 'checked' : '' ?>> Gaming
+    <input type="checkbox" name="hobbies[]" value="Sports"  <?= (in_array("Sports", $_POST['hobbies'] ?? [])) ? 'checked' : '' ?>> Sports
+    <input type="checkbox" name="hobbies[]" value="Music"   <?= (in_array("Music", $_POST['hobbies'] ?? [])) ? 'checked' : '' ?>> Music
+    <br><br>
+
+    <!-- Message -->
+    Message:<br>
+    <textarea name="message" rows="4" cols="40"><?= $_POST['message'] ?? '' ?></textarea><br><br>
+
+    <!-- Buttons -->
+    <input type="submit" name="submit" value="Register">
+    <input type="reset" value="Reset Form">
+</form>
+
+<?php
+    // Show errors if any
+    if ($error) {
+        echo "<div style='color:red; margin-top:15px;'><strong>Errors:</strong><br>$error</div>";
+    }
+    // Show success output
+    if ($output) {
+        echo $output;
+    }
+?>
+
+</body>
+</html>
