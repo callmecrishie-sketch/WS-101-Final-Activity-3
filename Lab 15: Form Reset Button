@@ -1,0 +1,8 @@
+<form method=”post” action=””>
+    Name: <input type=”text” name=”name”><br><br>
+    Email: <input type=”email” name=”email”><br><br>
+    
+    <input type=”submit” value=”Submit”>
+    <!--  Reset button: clears everything instantly 🡪
+    <input type=”reset” value=”Reset”>
+</form>
