@@ -1,0 +1,63 @@
+<?php
+$error = "";
+$output = "";
+
+if (isset($_POST["submit"])) {
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $gender = $_POST["gender"] ?? "";
+    $course = $_POST["course"] ?? "";
+    $message = trim($_POST["message"]);
+
+    if (empty($name)) $error .= "Name is required<br>";
+    if (empty($email)) $error .= "Email is required<br>";
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) $error .= "Invalid email format<br>";
+    if (empty($gender)) $error .= "Gender is required<br>";
+    if (empty($course)) $error .= "Course is required<br>";
+    if (empty($message)) $error .= "Message is required<br>";
+
+    if ($error === "") {
+        $name = htmlspecialchars($name);
+        $email = htmlspecialchars($email);
+        $gender = htmlspecialchars($gender);
+        $course = htmlspecialchars($course);
+        $message = htmlspecialchars($message);
+
+        $output = "
+            <h3>Submitted Data</h3>
+            Name: $name<br>
+            Email: $email<br>
+            Gender: $gender<br>
+            Course: $course<br>
+            Message: <br>" . nl2br($message) . "
+        ";
+    }
+}
+?>
+
+<form method="post" action="">
+    Name: <input type="text" name="name"><br><br>
+    Email: <input type="text" name="email"><br><br>
+
+    Gender:<br>
+    <input type="radio" name="gender" value="Male"> Male
+    <input type="radio" name="gender" value="Female"> Female<br><br>
+
+    Course:
+    <select name="course">
+        <option value="">-- Select --</option>
+        <option value="BSIT">BSIT</option>
+        <option value="BSCS">BSCS</option>
+        <option value="BSBA">BSBA</option>
+    </select><br><br>
+
+    Message:<br>
+    <textarea name="message" rows="4" cols="30"></textarea><br><br>
+
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+<?php
+if ($error) echo "<div style='color:red'>$error</div>";
+if ($output) echo "<div style='margin-top:15px; padding:10px; background:#f0f0f0'>$output</div>";
+?>
